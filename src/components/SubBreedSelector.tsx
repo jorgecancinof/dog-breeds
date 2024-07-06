@@ -31,11 +31,13 @@ export const SubBreedSelector = ({ selectedBreed, selectedSubBreed, onSubBreedSe
           displayValue={(subBreed: string | null) => subBreed || ''}
           placeholder="Select a sub-breed"
           disabled={!selectedBreed}
+          data-testid="subbreed-input"
         />
         {selectedSubBreed && (
           <ComboboxButton
             className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
             onClick={() => onSubBreedSelect(null)}
+            data-testid="subbreed-clear-button"
           >
             <XMarkIcon className="h-5 w-5 text-gray-400 hover:text-gray-500 transition-colors" aria-hidden="true" />
           </ComboboxButton>
@@ -55,7 +57,12 @@ export const SubBreedSelector = ({ selectedBreed, selectedSubBreed, onSubBreedSe
                 value={subBreed}
                 className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
               >
-                <span className="block truncate group-data-[selected]:font-semibold capitalize">{subBreed}</span>
+                <span
+                  data-testid={`subbreed-option-${subBreed}`}
+                  className="block truncate group-data-[selected]:font-semibold capitalize"
+                >
+                  {subBreed}
+                </span>
 
                 <span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-indigo-600 group-data-[selected]:flex group-data-[focus]:text-white">
                   <CheckIcon className="h-5 w-5" aria-hidden="true" />
