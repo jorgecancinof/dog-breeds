@@ -3,6 +3,11 @@ export interface BreedListDTO {
   status: string;
 }
 
+export interface SubBreedListDTO {
+  message: string[];
+  status: string;
+}
+
 export interface ImageListDTO {
   message: string[];
   status: string;

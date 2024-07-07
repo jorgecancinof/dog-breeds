@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import Image from 'next/image';
 import { Masonry } from 'masonic';
-import { useDogImages } from '@/hooks/useDogImages';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { ErrorMessage } from '@/components/ErrorMessage';
-import { SpinnerIcon } from './SpinnerIcon';
-import { useFavorites } from '@/hooks/useFavorites';
-import { FavoriteButton } from './FavoriteButton';
+import { useDogImages } from './useDogImages';
+import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
+import { ErrorMessage } from '@/shared/components/ErrorMessage';
+import { SpinnerIcon } from '@/shared/components/SpinnerIcon';
+import { useFavorites } from '@/features/favorites/useFavorites';
+import { FavoriteButton } from '@/features/favorites/FavoriteButton';
 
 interface DogImageMasonryProps {
   selectedBreed: string | null;

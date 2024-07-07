@@ -1,42 +1,44 @@
 import React, { useState } from 'react';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Label } from '@headlessui/react';
-import { CheckIcon, XMarkIcon, ExclamationCircleIcon } from '@heroicons/react/20/solid';
-import { useBreeds } from '@/hooks/useBreeds';
-import { LoadingState, ErrorState, NoResultsState } from './BreedSelectorStates';
+import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { useSubBreeds } from './useSubBreeds';
+import { LoadingState, ErrorState, NoResultsState } from './breedSelectorStates';
 
-interface BreedSelectorProps {
+interface SubBreedSelectorProps {
   selectedBreed: string | null;
-  onBreedSelect: (breed: string | null) => void;
+  selectedSubBreed: string | null;
+  onSubBreedSelect: (subBreed: string | null) => void;
 }
 
-export const BreedSelector = ({ selectedBreed, onBreedSelect }: BreedSelectorProps) => {
-  const { data: breeds, isLoading, isError } = useBreeds();
+export const SubBreedSelector = ({ selectedBreed, selectedSubBreed, onSubBreedSelect }: SubBreedSelectorProps) => {
+  const { data: subBreeds, isLoading, isError } = useSubBreeds(selectedBreed);
   const [query, setQuery] = useState('');
 
-  const filteredBreeds =
+  const filteredSubBreeds =
     query === ''
-      ? breeds
-      : breeds?.filter((breed) => {
-          return breed.toLowerCase().includes(query.toLowerCase());
+      ? subBreeds
+      : subBreeds?.filter((subBreed) => {
+          return subBreed.toLowerCase().includes(query.toLowerCase());
         });
 
   return (
-    <Combobox as="div" immediate value={selectedBreed} onChange={onBreedSelect}>
-      <Label className="block text-sm font-medium leading-6 text-gray-900">Breed</Label>
+    <Combobox as="div" immediate value={selectedSubBreed} onChange={onSubBreedSelect}>
+      <Label className="block text-sm font-medium leading-6 text-gray-900">Sub-breed</Label>
       <div className="relative">
         <ComboboxInput
           className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           onChange={(event) => setQuery(event.target.value)}
           onBlur={() => setQuery('')}
-          displayValue={(breed: string | null) => breed || ''}
-          placeholder="Select a breed"
-          data-testid="breed-input"
+          displayValue={(subBreed: string | null) => subBreed || ''}
+          placeholder="Select a sub-breed"
+          disabled={!selectedBreed}
+          data-testid="subbreed-input"
         />
-        {selectedBreed && (
+        {selectedSubBreed && (
           <ComboboxButton
             className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none"
-            onClick={() => onBreedSelect(null)}
-            data-testid="breed-clear-button"
+            onClick={() => onSubBreedSelect(null)}
+            data-testid="subbreed-clear-button"
           >
             <XMarkIcon className="h-5 w-5 text-gray-400 hover:text-gray-500 transition-colors" aria-hidden="true" />
           </ComboboxButton>
@@ -44,23 +46,23 @@ export const BreedSelector = ({ selectedBreed, onBreedSelect }: BreedSelectorPro
 
         <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           {isLoading ? (
-            <LoadingState message="Loading breeds" />
+            <LoadingState message="Loading sub-breeds" />
           ) : isError ? (
-            <ErrorState message="Error loading breeds" />
-          ) : filteredBreeds?.length === 0 && query !== '' ? (
-            <NoResultsState message="No breeds found" />
+            <ErrorState message="Error loading sub-breeds" />
+          ) : filteredSubBreeds?.length === 0 ? (
+            <NoResultsState message={query !== '' ? 'Nothing found' : 'No sub-breeds available'} />
           ) : (
-            filteredBreeds?.map((breed) => (
+            filteredSubBreeds?.map((subBreed) => (
               <ComboboxOption
-                key={breed}
-                value={breed}
+                key={subBreed}
+                value={subBreed}
                 className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
               >
                 <span
-                  data-testid={`breed-option-${breed}`}
+                  data-testid={`subbreed-option-${subBreed}`}
                   className="block truncate group-data-[selected]:font-semibold capitalize"
                 >
-                  {breed}
+                  {subBreed}
                 </span>
 
                 <span className="absolute inset-y-0 right-0 hidden items-center pr-4 text-indigo-600 group-data-[selected]:flex group-data-[focus]:text-white">

@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { BreedSelector } from '@/components/BreedSelector';
-import { SubBreedSelector } from '@/components/SubBreedSelector';
-import { DogImageMasonry } from '@/components/DogImageMasonry';
-import { FavoriteButton } from '@/components/FavoriteButton';
+import { BreedSelector } from '@/features/breedSelection/BreedSelector';
+import { SubBreedSelector } from '@/features/breedSelection/SubBreedSelector';
+import { DogImageMasonry } from '@/features/dogImageGallery/DogImageMasonry';
+import { FavoriteButton } from '@/features/favorites/FavoriteButton';
 import icon from '@/app/icon.svg';
 
 const queryClient = new QueryClient();

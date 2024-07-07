@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { FavoriteDog } from '@/models/favorite';
-import { useLocalStorageState } from './useLocalStorageState';
+import { FavoriteDog } from '@/shared/types/favorite';
+import { useLocalStorageState } from '@/shared/hooks/useLocalStorageState';
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useLocalStorageState<FavoriteDog[]>({

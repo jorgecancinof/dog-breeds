@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
-import { SpinnerIcon } from './SpinnerIcon';
+import { SpinnerIcon } from '@/shared/components/SpinnerIcon';
 
 export const LoadingState = ({ message }: { message: string }) => (
   <div className="flex items-center gap-2 relative cursor-default select-none py-2 px-4 text-indigo-600">

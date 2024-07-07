@@ -4,7 +4,7 @@ interface SpinnerIconProps extends React.SVGProps<SVGSVGElement> {
   className?: string;
 }
 
-export const SpinnerIcon: React.FC<SpinnerIconProps> = ({ className, ...props }) => (
+export const SpinnerIcon = ({ className, ...props }: SpinnerIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={`animate-spin stroke-current stroke-[3] ${className || ''}`}
