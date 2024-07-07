@@ -5,36 +5,53 @@ import { useDogImages } from '@/hooks/useDogImages';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { SpinnerIcon } from './SpinnerIcon';
+import { useFavorites } from '@/hooks/useFavorites';
+import { FavoriteButton } from './FavoriteButton';
 
 interface DogImageMasonryProps {
   selectedBreed: string | null;
   selectedSubBreed: string | null;
+  showFavorites: boolean;
 }
 
 interface DogImageItem {
   id: string;
   url: string;
+  breed: string;
+  subBreed?: string;
 }
 
 const ERROR_MESSAGE = 'Oops! Something went wrong';
 const ERROR_MESSAGE_DETAIL = 'There was an error loading the images. Please try again later.';
 
-export const DogImageMasonry = ({ selectedBreed, selectedSubBreed }: DogImageMasonryProps) => {
+export const DogImageMasonry = ({ selectedBreed, selectedSubBreed, showFavorites }: DogImageMasonryProps) => {
   const { data: dogImages, isLoading, isError } = useDogImages(selectedBreed, selectedSubBreed);
+  const { favorites, addFavorite, removeFavorite, isFavorite } = useFavorites();
 
   const memoizedItems = useMemo(() => {
-    if (!dogImages) return [];
-    return dogImages.imageUrls.map((url, index) => ({
-      id: `${index}-${url}`,
-      url,
-    }));
-  }, [dogImages]);
+    if (showFavorites) {
+      return favorites.map((fav) => ({
+        id: fav.id,
+        url: fav.imageUrl,
+        breed: fav.breed,
+        subBreed: fav.subBreed,
+      }));
+    }
 
-  if (!selectedBreed && !selectedSubBreed) {
-    return <div className="text-center text-xl py-4">Please select a breed to see images</div>;
+    if (!dogImages) return [];
+    return dogImages.imageUrls.map((url) => ({
+      id: url,
+      url,
+      breed: selectedBreed!,
+      subBreed: selectedSubBreed || undefined,
+    }));
+  }, [dogImages, selectedBreed, selectedSubBreed, showFavorites, favorites]);
+
+  if (!selectedBreed && !selectedSubBreed && !showFavorites) {
+    return <div className="text-center text-xl py-4">Please select a breed to see images or show favorites</div>;
   }
 
-  if (isLoading) {
+  if (isLoading && !showFavorites) {
     return (
       <div className="flex justify-center py-4">
         <div role="status" aria-live="polite">
@@ -45,27 +62,50 @@ export const DogImageMasonry = ({ selectedBreed, selectedSubBreed }: DogImageMas
     );
   }
 
-  if (isError) {
+  if (isError && !showFavorites) {
     return <ErrorMessage title={ERROR_MESSAGE} message={ERROR_MESSAGE_DETAIL} />;
   }
 
-  if (!dogImages || dogImages.imageUrls.length === 0) {
+  if (memoizedItems.length === 0 && !showFavorites) {
     return <div className="text-center text-xl py-4">No images available</div>;
   }
 
+  if (memoizedItems.length === 0 && showFavorites) {
+    return <div className="text-center text-xl py-4">You don&apos;t have any favorites yet</div>;
+  }
+
   const renderDogImage = ({ data }: { data: DogImageItem }) => (
-    <Image
-      src={data.url}
-      alt={`Photo of a ${selectedBreed}${selectedSubBreed ? ` ${selectedSubBreed}` : ''}`}
-      width={500}
-      height={500}
-      className="w-full h-auto rounded-lg"
-      data-breed={selectedBreed}
-      data-sub-breed={selectedSubBreed}
-    />
+    <div className="relative">
+      <Image
+        src={data.url}
+        alt={`Photo of a ${data.breed}${data.subBreed ? ` ${data.subBreed}` : ''}`}
+        width={500}
+        height={500}
+        className="w-full h-auto rounded-lg"
+        data-breed={data.breed}
+        data-sub-breed={data.subBreed}
+      />
+      <div className="absolute top-2 right-2">
+        <FavoriteButton
+          isChecked={isFavorite(data.id)}
+          onChange={(isChecked) =>
+            isChecked
+              ? addFavorite({
+                  id: data.id,
+                  breed: data.breed,
+                  subBreed: data.subBreed,
+                  imageUrl: data.url,
+                })
+              : removeFavorite(data.id)
+          }
+        />
+      </div>
+    </div>
   );
 
-  const masonryKey = `${selectedBreed}${selectedSubBreed ? `-${selectedSubBreed}` : ''}`;
+  const masonryKey = showFavorites
+    ? `${memoizedItems.length}-favorites`
+    : `${selectedBreed}${selectedSubBreed ? `-${selectedSubBreed}` : ''}`;
 
   return (
     <ErrorBoundary fallback={<ErrorMessage title={ERROR_MESSAGE} message={ERROR_MESSAGE_DETAIL} />}>

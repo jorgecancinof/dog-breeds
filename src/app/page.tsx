@@ -1,27 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BreedSelector } from '@/components/BreedSelector';
 import { SubBreedSelector } from '@/components/SubBreedSelector';
 import { DogImageMasonry } from '@/components/DogImageMasonry';
+import { FavoriteButton } from '@/components/FavoriteButton';
 import icon from '@/app/icon.svg';
 
 const queryClient = new QueryClient();
 
 export default function Home() {
-  const [selectedBreed, setSelectedBreed] = React.useState<string | null>(null);
-  const [selectedSubBreed, setSelectedSubBreed] = React.useState<string | null>(null);
+  const [selectedBreed, setSelectedBreed] = useState<string | null>(null);
+  const [selectedSubBreed, setSelectedSubBreed] = useState<string | null>(null);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const handleBreedSelect = (breed: string | null) => {
     setSelectedBreed(breed);
     setSelectedSubBreed(null);
+    setShowFavorites(false);
   };
 
   const handleSubBreedSelect = (subBreed: string | null) => {
     setSelectedSubBreed(subBreed);
+    setShowFavorites(false);
   };
 
   return (
@@ -47,20 +51,27 @@ export default function Home() {
               Explore a diverse gallery of dog breeds and sub-breeds. Filter and discover beautiful canine images from
               around the world.
             </p>
-            <div className="flex flex-col lg:flex-row gap-4 mt-6">
-              <BreedSelector selectedBreed={selectedBreed} onBreedSelect={handleBreedSelect} />
-              <SubBreedSelector
-                selectedBreed={selectedBreed}
-                selectedSubBreed={selectedSubBreed}
-                onSubBreedSelect={handleSubBreedSelect}
-              />
+            <div className="flex flex-col gap-4 mt-6">
+              <div className="flex flex-col lg:flex-row gap-4">
+                <BreedSelector selectedBreed={selectedBreed} onBreedSelect={handleBreedSelect} />
+                <SubBreedSelector
+                  selectedBreed={selectedBreed}
+                  selectedSubBreed={selectedSubBreed}
+                  onSubBreedSelect={handleSubBreedSelect}
+                />
+              </div>
+              <FavoriteButton isChecked={showFavorites} onChange={setShowFavorites} label="Show favorites" />
             </div>
           </div>
           <div className="w-full flex justify-center">
             <Image src={icon} alt="Dog icon" width={500} height={500} priority />
           </div>
         </div>
-        <DogImageMasonry selectedBreed={selectedBreed} selectedSubBreed={selectedSubBreed} />
+        <DogImageMasonry
+          selectedBreed={selectedBreed}
+          selectedSubBreed={selectedSubBreed}
+          showFavorites={showFavorites}
+        />
         <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-10 transform-gpu overflow-hidden blur-3xl">
           <div
             style={{
