@@ -56,16 +56,25 @@ export const DogImageMasonry = ({ selectedBreed, selectedSubBreed }: DogImageMas
   const renderDogImage = ({ data }: { data: DogImageItem }) => (
     <Image
       src={data.url}
-      alt={`${selectedBreed} ${selectedSubBreed || ''}`}
+      alt={`${selectedBreed}${selectedSubBreed ? ` ${selectedSubBreed}` : ''}`}
       width={500}
       height={500}
       className="w-full h-auto rounded-lg"
     />
   );
 
+  const masonryKey = `${selectedBreed}${selectedSubBreed ? `-${selectedSubBreed}` : ''}`;
+
   return (
     <ErrorBoundary fallback={<ErrorMessage title={ERROR_MESSAGE} message={ERROR_MESSAGE_DETAIL} />}>
-      <Masonry items={memoizedItems} render={renderDogImage} columnGutter={16} columnWidth={250} overscanBy={5} />
+      <Masonry
+        key={masonryKey}
+        items={memoizedItems}
+        render={renderDogImage}
+        columnGutter={16}
+        columnWidth={250}
+        overscanBy={5}
+      />
     </ErrorBoundary>
   );
 };
