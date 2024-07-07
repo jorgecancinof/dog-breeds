@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Label } from '@headlessui/react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { useSubBreeds } from '@/hooks/useSubBreeds';
+import { LoadingState, ErrorState, NoResultsState } from './BreedSelectorStates';
 
 interface SubBreedSelectorProps {
   selectedBreed: string | null;
@@ -10,7 +11,7 @@ interface SubBreedSelectorProps {
 }
 
 export const SubBreedSelector = ({ selectedBreed, selectedSubBreed, onSubBreedSelect }: SubBreedSelectorProps) => {
-  const { data: subBreeds, isLoading } = useSubBreeds(selectedBreed);
+  const { data: subBreeds, isLoading, isError } = useSubBreeds(selectedBreed);
   const [query, setQuery] = useState('');
 
   const filteredSubBreeds =
@@ -45,11 +46,11 @@ export const SubBreedSelector = ({ selectedBreed, selectedSubBreed, onSubBreedSe
 
         <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           {isLoading ? (
-            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">Loading...</div>
+            <LoadingState message="Loading sub-breeds" />
+          ) : isError ? (
+            <ErrorState message="Error loading sub-breeds" />
           ) : filteredSubBreeds?.length === 0 ? (
-            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-              {query !== '' ? 'Nothing found' : 'No sub-breeds available'}
-            </div>
+            <NoResultsState message={query !== '' ? 'Nothing found' : 'No sub-breeds available'} />
           ) : (
             filteredSubBreeds?.map((subBreed) => (
               <ComboboxOption

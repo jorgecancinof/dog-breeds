@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BreedSelector } from '@/components/BreedSelector';
 import { SubBreedSelector } from '@/components/SubBreedSelector';
 import { DogImageMasonry } from '@/components/DogImageMasonry';
@@ -25,6 +26,7 @@ export default function Home() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
       <main className="container mx-auto px-4 lg:px-8 py-8">
         <div
           aria-hidden="true"

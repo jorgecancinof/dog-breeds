@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Label } from '@headlessui/react';
-import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, XMarkIcon, ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import { useBreeds } from '@/hooks/useBreeds';
+import { LoadingState, ErrorState, NoResultsState } from './BreedSelectorStates';
 
 interface BreedSelectorProps {
   selectedBreed: string | null;
@@ -9,7 +10,7 @@ interface BreedSelectorProps {
 }
 
 export const BreedSelector = ({ selectedBreed, onBreedSelect }: BreedSelectorProps) => {
-  const { data: breeds, isLoading } = useBreeds();
+  const { data: breeds, isLoading, isError } = useBreeds();
   const [query, setQuery] = useState('');
 
   const filteredBreeds =
@@ -43,9 +44,11 @@ export const BreedSelector = ({ selectedBreed, onBreedSelect }: BreedSelectorPro
 
         <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           {isLoading ? (
-            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">Loading...</div>
+            <LoadingState message="Loading breeds" />
+          ) : isError ? (
+            <ErrorState message="Error loading breeds" />
           ) : filteredBreeds?.length === 0 && query !== '' ? (
-            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">Nothing found</div>
+            <NoResultsState message="No breeds found" />
           ) : (
             filteredBreeds?.map((breed) => (
               <ComboboxOption
