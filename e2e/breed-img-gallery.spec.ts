@@ -21,7 +21,7 @@ test.describe('Breed image gallery', () => {
 
       await expect(breedInput).toHaveValue(BREED);
       await expect(page.getByTestId(`breed-option-${BREED}`)).toBeHidden();
-      await expect(page.locator(`img[alt^="${BREED}"]`).first()).toBeVisible({ timeout: TIMEOUT });
+      await expect(page.locator(`[data-breed="${BREED}"]`).first()).toBeVisible({ timeout: TIMEOUT });
     });
 
     await test.step('Select sub-breed and verify images', async () => {
@@ -30,14 +30,14 @@ test.describe('Breed image gallery', () => {
 
       await expect(subBreedInput).toHaveValue(SUB_BREED);
       await expect(page.getByTestId(`subbreed-option-${SUB_BREED}`)).toBeHidden();
-      await expect(page.locator(`img[alt="${BREED} ${SUB_BREED}"]`).first()).toBeVisible({ timeout: TIMEOUT });
+      await expect(page.locator(`[data-breed="${BREED}"][data-sub-breed="${SUB_BREED}"]`).first()).toBeVisible({ timeout: TIMEOUT });
     });
 
     await test.step('Clear sub-breed and verify breed images', async () => {
       await page.getByTestId('subbreed-clear-button').click();
 
       await expect(subBreedInput).toBeEmpty();
-      await expect(page.locator(`img[alt^="${BREED}"]`).first()).toBeVisible({ timeout: TIMEOUT });
+      await expect(page.locator(`[data-breed="${BREED}"]`).first()).toBeVisible({ timeout: TIMEOUT });
     });
 
     await test.step('Reselect sub-breed and verify images', async () => {
@@ -45,11 +45,11 @@ test.describe('Breed image gallery', () => {
       await page.getByTestId(`subbreed-option-${SUB_BREED}`).click();
 
       await expect(subBreedInput).toHaveValue(SUB_BREED);
-      await expect(page.locator(`img[alt="${BREED} ${SUB_BREED}"]`).first()).toBeVisible({ timeout: TIMEOUT });
+      await expect(page.locator(`[data-breed="${BREED}"][data-sub-breed="${SUB_BREED}"]`).first()).toBeVisible({ timeout: TIMEOUT });
     });
 
     await test.step('Verify multiple images are loaded', async () => {
-      const images = await page.$$(`img[alt="${BREED} ${SUB_BREED}"]`);
+      const images = await page.$$(`[data-breed="${BREED}"][data-sub-breed="${SUB_BREED}"]`);
       expect(images.length).toBeGreaterThan(0);
     });
   });

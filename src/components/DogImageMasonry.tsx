@@ -56,10 +56,12 @@ export const DogImageMasonry = ({ selectedBreed, selectedSubBreed }: DogImageMas
   const renderDogImage = ({ data }: { data: DogImageItem }) => (
     <Image
       src={data.url}
-      alt={`${selectedBreed}${selectedSubBreed ? ` ${selectedSubBreed}` : ''}`}
+      alt={`Photo of a ${selectedBreed}${selectedSubBreed ? ` ${selectedSubBreed}` : ''}`}
       width={500}
       height={500}
       className="w-full h-auto rounded-lg"
+      data-breed={selectedBreed}
+      data-sub-breed={selectedSubBreed}
     />
   );
 
