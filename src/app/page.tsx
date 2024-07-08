@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BreedSelector } from '@/features/breedSelection/BreedSelector';
 import { SubBreedSelector } from '@/features/breedSelection/SubBreedSelector';
 import { DogImageMasonry } from '@/features/dogImageGallery/DogImageMasonry';
 import { FavoriteButton } from '@/features/favorites/FavoriteButton';
-import icon from '@/app/icon.svg';
+import { DogHead3D } from '@/features/dogHead3D/DogHead3D';
 
 const queryClient = new QueryClient();
 
@@ -64,7 +63,7 @@ export default function Home() {
             </div>
           </div>
           <div className="w-full flex justify-center">
-            <Image src={icon} alt="Dog icon" width={500} height={500} priority />
+            <DogHead3D />
           </div>
         </div>
         <DogImageMasonry
