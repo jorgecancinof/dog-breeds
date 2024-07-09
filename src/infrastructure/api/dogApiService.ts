@@ -3,7 +3,7 @@ import { IDogRepository } from './interfaces/IDogRepository';
 import { DogRepository } from './dogRepository';
 import { BreedList, SubBreedList, DogImageList } from '@/shared/types/dog';
 
-class DogApiService implements IDogApiService {
+export class DogApiService implements IDogApiService {
   private repository: IDogRepository;
 
   constructor(repository: IDogRepository) {
