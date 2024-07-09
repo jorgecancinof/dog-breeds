@@ -33,7 +33,13 @@ For a comprehensive understanding of Vertical Slice Architecture, I recommend wa
 
 This app uses the [Dog API](https://dog.ceo/dog-api/) to fetch dog breeds and associated images.
 
-I have documented the specific API endpoints used in this project in my own API reference, which you can find [here](docs/DOG_API_REFERENCE.md). Additionally, the Postman collection for these endpoints is available [here](postman/dog-api.postman_collection.json).
+### API Documentation
+
+#### Custom API Reference
+I have documented the specific API endpoints used in this project in my own API reference, which you can find [here](docs/DOG_API_REFERENCE.md).
+
+#### Postman Collection
+For easy testing and exploration of the API, a Postman collection for these endpoints is available [here](postman/dog-api.postman_collection.json).
 
 ## Getting Started
 
