@@ -2,11 +2,13 @@ import React, { useMemo } from 'react';
 import Image from 'next/image';
 import { Masonry } from 'masonic';
 import { useDogImages } from './useDogImages';
-import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
-import { ErrorMessage } from '@/shared/components/ErrorMessage';
-import { SpinnerIcon } from '@/shared/components/SpinnerIcon';
+import { ErrorBoundary } from '@/shared/components/errors/ErrorBoundary';
+import { ErrorMessage } from '@/shared/components/alerts/ErrorMessage';
 import { useFavorites } from '@/features/favorites/useFavorites';
 import { FavoriteButton } from '@/features/favorites/FavoriteButton';
+import { Loading } from '@/shared/components/indicators/Loading';
+import { InfoMessage } from '@/shared/components/alerts/InfoMessage';
+import { NoFavoritesMessage } from '@/features/favorites/NoFavoritesMessage';
 
 interface DogImageMasonryProps {
   selectedBreed: string | null;
@@ -48,18 +50,11 @@ export const DogImageMasonry = ({ selectedBreed, selectedSubBreed, showFavorites
   }, [dogImages, selectedBreed, selectedSubBreed, showFavorites, favorites]);
 
   if (!selectedBreed && !selectedSubBreed && !showFavorites) {
-    return <div className="text-center text-xl py-4">Please select a breed to see images or show favorites</div>;
+    return null;
   }
 
   if (isLoading && !showFavorites) {
-    return (
-      <div className="flex justify-center py-4">
-        <div role="status" aria-live="polite">
-          <SpinnerIcon className="h-20 w-20 text-indigo-500" />
-          <span className="sr-only">Loading</span>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (isError && !showFavorites) {
@@ -67,11 +62,11 @@ export const DogImageMasonry = ({ selectedBreed, selectedSubBreed, showFavorites
   }
 
   if (memoizedItems.length === 0 && !showFavorites) {
-    return <div className="text-center text-xl py-4">No images available</div>;
+    return <InfoMessage title="No images available" message="Please select another breed or sub-breed." />;
   }
 
   if (memoizedItems.length === 0 && showFavorites) {
-    return <div className="text-center text-xl py-4">You don&apos;t have any favorites yet</div>;
+    return <NoFavoritesMessage />;
   }
 
   const renderDogImage = ({ data }: { data: DogImageItem }) => (

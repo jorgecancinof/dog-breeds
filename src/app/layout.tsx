@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Dog Breeds',
+  title: 'DogBreeds',
   description:
     'Explore a diverse gallery of dog breeds and sub-breeds. Filter and discover beautiful canine images from around the world.',
 };

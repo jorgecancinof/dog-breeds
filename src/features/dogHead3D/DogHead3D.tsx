@@ -32,7 +32,7 @@ function DogHead() {
 
 export function DogHead3D() {
   return (
-    <div className="w-[32rem] h-[32rem]">
+    <div className="w-[15rem] h-[15rem] sm:w-[22rem] sm:h-[22rem] lg:w-[32rem] lg:h-[32rem]">
       <Canvas camera={{ position: [0, 0, 5] }}>
         <ambientLight intensity={2.0} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
