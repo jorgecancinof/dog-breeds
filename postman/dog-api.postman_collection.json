@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "4e1bb3dd-3d4b-4dad-b874-d275a6afcfc5",
+		"name": "Dog API",
+		"description": "A collection for the Dog API, providing access to dog breeds and images.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25650151"
+	},
+	"item": [
+		{
+			"name": "List all breeds",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/breeds/list/all",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"breeds",
+						"list",
+						"all"
+					]
+				},
+				"description": "Retrieves a list of all dog breeds available in the database."
+			},
+			"response": []
+		},
+		{
+			"name": "List images of a breed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/breed/{{breed}}/images",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"breed",
+						"{{breed}}",
+						"images"
+					]
+				},
+				"description": "Retrieves a list of image URLs for a specific breed."
+			},
+			"response": []
+		},
+		{
+			"name": "List sub-breeds",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/breed/{{breed}}/list",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"breed",
+						"{{breed}}",
+						"list"
+					]
+				},
+				"description": "Retrieves a list of all sub-breeds for a specific breed."
+			},
+			"response": []
+		},
+		{
+			"name": "List images of a sub-breed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/breed/{{breed}}/{{subbreed}}/images",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"breed",
+						"{{breed}}",
+						"{{subbreed}}",
+						"images"
+					]
+				},
+				"description": "Retrieves a list of image URLs for a specific sub-breed."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://dog.ceo/api"
+		},
+		{
+			"key": "breed",
+			"value": "hound",
+			"type": "string"
+		},
+		{
+			"key": "subbreed",
+			"value": "afghan",
+			"type": "string"
+		}
+	]
+}
