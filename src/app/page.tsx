@@ -59,12 +59,16 @@ export default function Home() {
   const handleBreedSelect = (breed: string | null) => {
     setSelectedBreed(breed);
     setSelectedSubBreed(null);
-    setShowFavorites(false);
+    if (breed) {
+      setShowFavorites(false);
+    }
   };
 
   const handleSubBreedSelect = (subBreed: string | null) => {
     setSelectedSubBreed(subBreed);
-    setShowFavorites(false);
+    if (subBreed) {
+      setShowFavorites(false);
+    }
   };
 
   return (
