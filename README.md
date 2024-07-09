@@ -1,9 +1,11 @@
 <div align="center">
   <img src="src/app/icon.svg" width="200" height="200" alt="DogBreeds icon" />
   <h1 align="center">DogBreeds</h1>
+  <p align="center"><strong>Explore a diverse gallery of dog breeds and associated images</strong></p>
+  <p align="center">
+    <a href="https://dog-breeds-blond.vercel.app/" target="_blank">View App in Production</a>
+  </p>
 </div>
-
-Explore a diverse gallery of dog breeds and sub-breeds. Filter and discover beautiful canine images from around the world.
 
 ## Tech Stack
 
@@ -51,25 +53,6 @@ I have documented the specific API endpoints used in this project in my own API 
    npm ci
    ```
 
-### Testing
-
-#### Unit Testing
-
-All unit tests are located close to the source code in the `__tests__` directory. This project uses Vitest for unit testing. You can run the tests with:
-
-```bash
-npm run test
-```
-
-#### E2E Testing
-
-This project uses Playwright for E2E testing. You can run the tests with:
-
-```bash
-npx playwright install # Only for the first time in a new environment
-npm run test:e2e
-```
-
 ### Running the Project
 
 1. Start the development server:
@@ -78,6 +61,25 @@ npm run test:e2e
    ```
 
 2. Open [http://localhost:3000](http://localhost:3000) with your browser to access the app.
+
+## Testing
+
+### Unit Testing
+
+All unit tests are located close to the source code in the `__tests__` directory. This project uses Vitest for unit testing. You can run the tests with:
+
+```bash
+npm run test
+```
+
+### E2E Testing
+
+This project uses Playwright for E2E testing. You can run the tests with:
+
+```bash
+npx playwright install # Only for the first time in a new environment
+npm run test:e2e
+```
 
 ## License
 
